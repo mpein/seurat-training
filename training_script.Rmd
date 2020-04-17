@@ -359,3 +359,14 @@ training.object <- AddModuleScore(training.object, features = gene.set, assay = 
 colnames(training.object@meta.data)
 VlnPlot(training.object, features = "maren1", group.by = "Phase") 
 ```
+```{r load my own CXCR3 signature and do analysis with it}
+CXCR3.sig <- read.table("C:/Users/maren/Documents/R/CXCR3Signature.txt")
+head(CXCR3.sig)
+CXCR3.sig <- as.character(CXCR3.sig$V1)
+CXCR3.sig <- list("genes" = CXCR3.sig)
+
+colnames(training.object@meta.data)
+training.object <- AddModuleScore(training.object, features = CXCR3.sig, search = TRUE, assay = "RNA", name = "CXCR3_Signature")
+
+VlnPlot(training.object, features = "CXCR3_Signature1", group.by = "tissue")
+```
