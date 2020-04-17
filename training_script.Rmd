@@ -335,7 +335,7 @@ Notice, that this calculation means that:
 Now for the examples of calculating a gene score in Seurat. First, we need to load in an example set of genes. Execute the following code:
 
 ```{r load.example.gene.set}
-gene.set <- read.table("gene_set.txt")
+gene.set <- read.table("maren.genes.txt")
 ```
 
 Let's go ahead and look at the format of our gene list:
@@ -347,12 +347,15 @@ head(gene.set)
 We can see that this represents a dataframe with one column and multiple rows representing a different gene in the pathway that we are interested in (total of 135 genes). In order for us to use this gene set in the Seurat AddModuleScore() function, we have to first turn it into a string of characters and then into a list.
 
 ```{r convert.gene.set.to.characters}
-gene.set <- as.character(gene.set$V1)
+gene.set <- as.character(gene.set$x)
 gene.set <- list("genes" = gene.set)
+
 ```
 
 Now we can go ahead and input this gene set into the Seurat AddModuleScore function. Execute the following code:
 
 ```{r add.module.score}
-training.object <- AddModuleScore(training.object, features = gene.set, assay = "RNA")
+training.object <- AddModuleScore(training.object, features = gene.set, assay = "RNA", name = "maren")
+colnames(training.object@meta.data)
+VlnPlot(training.object, features = "maren1", group.by = "Phase") 
 ```
